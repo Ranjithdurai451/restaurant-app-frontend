@@ -1,5 +1,4 @@
-import React from 'react';
-import { Mail, MessageSquare, User } from 'lucide-react';
+import { Mail, User } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { contactSchema } from '../validations/contact.schema';
@@ -9,11 +8,9 @@ import type { ContactFormData } from '../validations/contact.schema';
 import { useAuth } from '../contexts/AuthContext';
 import { contactForm } from '../service/userService';
 import { toast } from 'sonner';
-import { useNavigate } from 'react-router-dom';
 
 export function Contact() {
   const { userData, isAuthenticated } = useAuth();
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,

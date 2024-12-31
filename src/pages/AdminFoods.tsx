@@ -29,8 +29,7 @@ const AdminFoods = () => {
       } catch (error) {
         toast.error("Failed to load foods.");
         setError("Unable to Fetch food Items.");
-      }
-      finally {
+      } finally {
         setLoading(false);
       }
     };
@@ -60,7 +59,7 @@ const AdminFoods = () => {
         }
 
         const updatedFood = { ...data, id: editingFood.id };
-        
+
         // Safely call the updateFood function with a non-undefined ID
         const response = await updateFood(editingFood.id, updatedFood);
         if (response.status === 200) {
@@ -83,7 +82,6 @@ const AdminFoods = () => {
       reset();
       setShowForm(false);
     } catch (error) {
-     
       toast.error(String(error));
     }
   };
@@ -113,7 +111,7 @@ const AdminFoods = () => {
         toast.error("Invalid food ID.");
         return;
       }
-       await deleteFood(food.id);
+      await deleteFood(food.id);
       // console.log(response);
 
       toast.success("Food deleted successfully.");
@@ -124,19 +122,19 @@ const AdminFoods = () => {
     setFoods(foods.filter((f) => f.id !== food.id));
   };
 
-  if(loading) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader />
       </div>
-    )
+    );
   }
-  if(error) {
+  if (error) {
     return (
       <div className="flex items-center justify-center h-screen">
         <p className="text-red-500 text-lg font-semibold capitalize">{error}</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -144,9 +142,113 @@ const AdminFoods = () => {
       {/* Blur Background Overlay */}
       {showForm && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-10"
-          onClick={() => setShowForm(false)}
-        ></div>
+          className={`${showForm ? "fixed" : ""} inset-0 bg-black/50 backdrop-blur-sm z-10`}
+         
+        >
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="bg-white p-6 rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-md w-[70%] z-20"
+          >
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block mb-2">Name</label>
+                <input
+                  {...register("name", { required: "Name is required" })}
+                  className="w-full p-2 border rounded"
+                />
+                {errors.name && (
+                  <span className="text-red-500">{errors.name.message}</span>
+                )}
+              </div>
+
+              <div>
+                <label className="block mb-2">Category</label>
+                <input
+                  {...register("category", {
+                    required: "Category is required",
+                  })}
+                  className="w-full p-2 border rounded"
+                />
+                {errors.category && (
+                  <span className="text-red-500">
+                    {errors.category.message}
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <label className="block mb-2">Price</label>
+                <input
+                  type="number"
+                  {...register("price", {
+                    required: "Price is required",
+                    min: 0,
+                  })}
+                  className="w-full p-2 border rounded"
+                />
+                {errors.price && (
+                  <span className="text-red-500">{errors.price.message}</span>
+                )}
+              </div>
+
+              <div>
+                <label className="block mb-2">Image URL</label>
+                <input
+                  {...register("image", { required: "Image URL is required" })}
+                  className="w-full p-2 border rounded"
+                />
+                {errors.image && (
+                  <span className="text-red-500">{errors.image.message}</span>
+                )}
+              </div>
+
+              <div className="col-span-2">
+                <label className="block mb-2">Description</label>
+                <textarea
+                  {...register("description", {
+                    required: "Description is required",
+                  })}
+                  className="w-full p-2 border rounded"
+                />
+                {errors.description && (
+                  <span className="text-red-500">
+                    {errors.description.message}
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    {...register("isAvailable")}
+                    className="form-checkbox"
+                    defaultChecked={editingFood?.isAvailable ?? false}
+                  />
+                  <span>Available</span>
+                </label>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="mt-4 bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700"
+            >
+              {editingFood ? "Update Food" : "Add Food"}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                reset();
+                setShowForm(false);
+                setEditingFood(null);
+              }}
+              className="ml-2 bg-gray-600 px-4 py-2 rounded text-white"
+            >
+              Cancel
+            </button>
+          </form>
+        </div>
       )}
       <div
         className={`${
@@ -163,7 +265,7 @@ const AdminFoods = () => {
         </button>
       </div>
 
-      {showForm && (
+      {/* {showForm && (
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="bg-white p-6 rounded-lg shadow-md absolute top-4 left-10 w-[90%] z-20"
@@ -263,7 +365,7 @@ const AdminFoods = () => {
             Cancel
           </button>
         </form>
-      )}
+      )} */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {foods.map((food) => (
