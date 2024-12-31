@@ -5,7 +5,6 @@ import {
   ClipboardList,
   CalendarRange,
   MessageSquare,
-  Menu,
 } from "lucide-react";
 
 const AdminSidebar = () => {
