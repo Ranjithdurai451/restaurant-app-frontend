@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Check, X } from "lucide-react";
 import { getAllOrders } from "../service/adminService";
 import { Order } from "../types";
+import Loader from "../components/common/Loader";
 
 
 const AdminOrders = () => {
@@ -22,9 +23,10 @@ const AdminOrders = () => {
           setError("Invalid data format");
         }
       } catch (error) {
-        setError("Error fetching orders");
-        console.error("Error fetching orders:", error); // Debug log to see the error
-      } finally {
+        setError("No Orders Found");
+        // console.error("Error fetching orders:", error); // Debug log to see the error
+      } 
+      finally {
         setLoading(false);
       }
     };
@@ -41,11 +43,11 @@ const AdminOrders = () => {
   // };
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading text or spinner while data is being fetched
+    return <div className="flex items-center justify-center h-[100dvh]"><Loader /></div>; // Show loading text or spinner while data is being fetched
   }
 
   if (error) {
-    return <div>{error}</div>; // Show error message if fetching fails
+    return <div className="flex items-center justify-center h-[100dvh] text-red-300">{error}</div>; // Show error message if fetching fails
   }
 
   return (

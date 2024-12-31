@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import type { Contact } from "../types";
 import { getAllContacts } from "../service/adminService";
+import Loader from "../components/common/Loader";
 
 const AdminContacts = () => {
   const [contacts, setContacts] = useState<Contact[]>([ ]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 useEffect(() => {
   const fetchreservations = async () => {
     try {
@@ -11,12 +14,30 @@ useEffect(() => {
       setContacts(response);
        
      } catch (error) {
-       
+       setError("Failed to fetch reservations.");
+     }
+     finally {
+      setLoading(false);
      }
   }
   fetchreservations();
  
 },[]);
+
+if(loading) {
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <Loader />
+    </div>
+  )
+}
+if(error) {
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <p className="text-red-500">{error}</p>
+    </div>
+  )
+}
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-8">Contact Messages</h1>

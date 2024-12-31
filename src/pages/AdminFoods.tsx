@@ -10,11 +10,14 @@ import {
 } from "../service/adminService";
 import { toast } from "sonner";
 import { useOutletContext } from "react-router-dom";
+import Loader from "../components/common/Loader";
 
 const AdminFoods = () => {
   const [foods, setFoods] = useState<Food[]>([]);
   const [editingFood, setEditingFood] = useState<Food | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const { mainRef } = useOutletContext<{
     mainRef: React.RefObject<HTMLDivElement>;
   }>();
@@ -25,6 +28,10 @@ const AdminFoods = () => {
         setFoods(response.data);
       } catch (error) {
         toast.error("Failed to load foods.");
+        setError("Unable to Fetch food Items.");
+      }
+      finally {
+        setLoading(false);
       }
     };
 
@@ -76,6 +83,7 @@ const AdminFoods = () => {
       reset();
       setShowForm(false);
     } catch (error) {
+     
       toast.error(String(error));
     }
   };
@@ -115,6 +123,21 @@ const AdminFoods = () => {
 
     setFoods(foods.filter((f) => f.id !== food.id));
   };
+
+  if(loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader />
+      </div>
+    )
+  }
+  if(error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-red-500">{error}</p>
+      </div>
+    )
+  }
 
   return (
     <div className={`${foods.length === 0 ? "p-0" : "pt-16 p-8"} relative`}>
