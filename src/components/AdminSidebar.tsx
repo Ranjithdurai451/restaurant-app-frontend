@@ -169,7 +169,7 @@ const AdminSidebar = () => {
        
         <span className={`${isBottomNavOpen? "rotate-45 relative top-[6px] " : ""} w-6 h-[2px] bg-white transition-all`}></span>
         <span className={`${isBottomNavOpen ? "h-0 w-0" : "w-6"} h-[2px] bg-white transition-all`}></span>
-        <span className={`${isBottomNavOpen? "-rotate-45 relative bottom-[4px] " : ""} w-6 h-[2px] bg-white transition-all`}></span>
+        <span className={`${isBottomNavOpen? "-rotate-45 relative bottom-[4px] top[-6px]" : ""} w-6 h-[2px] bg-white transition-all`}></span>
       </div>
     </div>
   );

@@ -38,7 +38,7 @@ if(loading) {
 if(error) {
   return (
     <div className="flex items-center justify-center h-screen">
-      <p className="text-red-500">{error}</p>
+      <p className="text-red-500 text-lg font-semibold capitalize">{error}</p>
     </div>
   )
 }

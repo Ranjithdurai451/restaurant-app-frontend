@@ -4,12 +4,10 @@ import { Navbar } from './components/navigation/Navbar';
 import { Cart } from './components/cart/Cart';
 import { AuthModal } from './components/auth/AuthModal';
 import { Toaster } from 'sonner';
-import { useAuth } from './contexts/AuthContext';
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
-  const { userData } = useAuth();
   const location = useLocation();
 
   return (
@@ -24,7 +22,7 @@ function App() {
       <main
         className={` mx-auto  ${
           !location.pathname.match(/\/admin(\/|$)/)
-            ? 'lg:px-8 px-4 pt-16 sm:px-6 max-w-7xl '
+            ? 'lg:px-8 px-4 sm:px-6 max-w-7xl '
             : ' '
         }`}
       >

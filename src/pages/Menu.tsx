@@ -3,20 +3,22 @@ import { MenuItem } from '../components/MenuItem';
 import { useCart } from '../contexts/CartContext';
 import { getAllFoodItems } from '../service/userService';
 import { MenuItems } from '../types';
+import Loader from '../components/common/Loader';
 
 export function Menu() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const { addToCart } = useCart();
   const [foodItems, setFoodItems] = useState<MenuItems[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
+  const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     const fetchAllFoodItems = async () => {
       try {
         const response = await getAllFoodItems();
         setFoodItems(response.data);
       } catch (error) {
-        console.error('Error fetching food items:', error);
+        // console.error('Error fetching food items:', error);
+        setError('Unable to fetch food items');
       } finally {
         setIsLoading(false);
       }
@@ -36,6 +38,20 @@ export function Menu() {
       (selectedCategory === 'all' || item.category === selectedCategory)
   );
 
+  if(isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-center"><Loader /></p>
+      </div>)
+  }
+
+    if(error) {
+      return (
+        <div className="flex items-center justify-center h-screen">
+          <p className="text-center text-red-500 text-lg font-semibold capitalize">{error}</p>
+        </div>
+      )
+    }
   return (
     <div className="pt-24 pb-16">
       <h1 className="mb-8 text-4xl font-bold text-center text-gray-900">

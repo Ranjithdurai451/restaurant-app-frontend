@@ -47,7 +47,7 @@ const AdminOrders = () => {
   }
 
   if (error) {
-    return <div className="flex items-center justify-center h-[100dvh] text-red-300">{error}</div>; // Show error message if fetching fails
+    return <div className="flex items-center justify-center h-[100dvh] text-red-500 text-lg font-semibold capitalize">{error}</div>; // Show error message if fetching fails
   }
 
   return (
